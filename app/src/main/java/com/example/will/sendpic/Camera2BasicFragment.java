@@ -163,11 +163,13 @@ public class Camera2BasicFragment extends Fragment
      */
     private File mFile;
     /**
+     * The reference to TextView which saves the result data from server.
+     */
+    private TextView tvRes;
+    /**
      * This a callback object for the {@link ImageReader}. "onImageAvailable" will be called when a
      * still image is ready to be saved.
      */
-
-    private TextView tvRes;
     private final ImageReader.OnImageAvailableListener mOnImageAvailableListener
             = new ImageReader.OnImageAvailableListener() {
 
@@ -398,7 +400,8 @@ public class Camera2BasicFragment extends Fragment
             }
             s.shutdownOutput();
 
-            //get result
+            //get the result from server
+            //you can change the protocol
             InputStream in = s.getInputStream();
             byte[] result = new byte[1024];
             int num = in.read(result);
@@ -891,11 +894,11 @@ public class Camera2BasicFragment extends Fragment
         switch (view.getId()) {
             case R.id.picture: {
                 takePicture();
-
                 Thread thread = new Thread(new Runnable(){
                     @Override
                     public void run() {
                         try {
+                            //can change IP, port and timeout here
                             String res = sendFileGetResult(mFile,"192.168.0.102",4242,2);
                             tvRes.setText(res);
                         } catch (Exception e) {
@@ -903,10 +906,7 @@ public class Camera2BasicFragment extends Fragment
                         }
                     }
                 });
-
                 thread.start();
-
-
                 break;
             }
         }
