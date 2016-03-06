@@ -1,7 +1,7 @@
 import java.net.*;
 import java.io.*;
 
-public class ServerTcpListener {
+public class Server {
     public static void main(String[] args) {
         try {
             final ServerSocket server = new ServerSocket();
